@@ -30,6 +30,7 @@ def ditto_url(sha1hash, url):
 	for password in passlist.split('\n'):
 		hashguess = hashlib.sha1(bytes(password, 'utf-8')).hexdigest()
 		if hashguess == sha1hash:
+			print(colored("[+] Password is: " + str(password),'green'))
 			return(str(password))
 		else:
 			print(colored("[-] Password guess " + str(password) + " does not match, trying next....", 'yellow'))
@@ -39,4 +40,28 @@ def ditto_list(sha1hash, list):
 	for password in passlist:
 		hashguess = hashlib.sha1(bytes(password, 'utf-8')).hexdigest()
 		if hashguess == sha1hash:
+			print(colored("[+] Password is: " + str(password),'green'))
 			return(str(password))
+########### MD5 HASHER #############
+def ditto_md5_list(md5hash, wordList):
+	for word in wordList:
+		print(colored("[-] Trying: " + word, "red"))
+		enc_wrd = word.encode('utf-8')
+		md5digest = hashlib.md5(enc_wrd).hexdigest()
+		
+		if md5digest == md5hash:
+			print(colored("[+] Password Found: " + word, 'green'))
+			return (str(word))
+			exit(0)
+	print("[!!] Password not in list") 
+def ditto_md5_url(md5hash, url):	
+	passlist = str(urlopen(url).read(),'utf-8')
+	for password in passlist.split('\n'):
+		enc_wrd = password.encode('utf-8')
+		hashguess = hashlib.md5(bytes(enc_wrd)).hexdigest()
+		if hashguess == md5hash:
+			print(colored("[+] Password is: " + str(password),'green'))
+			return(str(password))
+		else:
+			print(colored("[-] Password guess " + str(password) + " does not match, trying next....", 'yellow'))
+	print("password not in password list")
