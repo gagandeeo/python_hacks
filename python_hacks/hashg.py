@@ -3,6 +3,7 @@ import hashlib
 from urllib.request import urlopen
 import hashlib
 from termcolor import colored
+import crypt
 #########  HASHING VALUES ############
 def value_md5(hashvalue):
 	hashobj1 = hashlib.md5()
@@ -24,6 +25,9 @@ def value_sha512(hashvalue):
 	hashobj5 = hashlib.sha512()
 	hashobj5.update(hashvalue.encode())
 	return(hashobj5.hexdigest())
+def value_crypt(hashvalue, salt):
+	cryptWord = crypt.crypt(hashvalue, salt)
+	return(cryptWord)
 ######### MATCHING FUNCTIONS ###############
 def ditto_url(sha1hash, url):	
 	passlist = str(urlopen(url).read(),'utf-8')
