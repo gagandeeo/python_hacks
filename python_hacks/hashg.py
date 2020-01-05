@@ -65,3 +65,26 @@ def ditto_md5_url(md5hash, url):
 		else:
 			print(colored("[-] Password guess " + str(password) + " does not match, trying next....", 'yellow'))
 	print("password not in password list")
+############### Crypt hasher #################
+def ditto_crypt_list(cryptHash, list):
+	passlist = list
+	salt = cryptHash[0:2]
+	for password in passlist:
+		cryptPass = crypt.crypt(password, salt)
+		if cryptPass == cryptHash:
+			print(colored("[+] Password is: " + str(password),'green'))
+			return(str(password))
+		else:
+			print(colored("[-] Password guess " + str(password) + " does not match, trying next...", 'yellow'))
+	print("Password not in password list")
+def ditto_crypt_url(cryptHash, url):
+	passlist = str(urlopen(url).read(),'utf-8')
+	salt = cryptHash[0:2]
+	for password in passlist.split('\n'):
+		cryptPass = crypt.crypt(password, salt)
+		if cryptPass == cryptHash:
+			print(colored("[+] Password is: " + str(password),'green'))
+			return(str(password))
+		else:
+			print(colored("[-] Password guess " + str(password) + " does not match, trying next....", 'yellow'))
+	print("password not in password list")
